@@ -87,8 +87,9 @@ dependencies {
     implementation(libs.datastore.preferences)
     implementation(libs.tink.android)
 
-    // Unit Testing
-    testImplementation(libs.junit)
+
+// Unit Testing - JUnit 4
+    testImplementation("junit:junit:4.13.2")
 
     // Instrumentation Testing
     androidTestImplementation(platform(libs.androidx.compose.bom))
