@@ -1,4 +1,4 @@
-const pool = require('../src/db/pool');
+const pool = require('../db/pool');
 
 pool.query('select now() as waktu')
   .then((r) => console.log('Terhubung:', r.rows[0]))
