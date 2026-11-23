@@ -8,3 +8,11 @@ exports.register = wrap(async (req, res) =>
   ok(res, await auth.register(req.body || {}), 'Registrasi berhasil', 201));
 
 exports.login = wrap(async (req, res) => ok(res, await auth.login(req.body || {}), 'Login berhasil'));
+
+exports.refresh = wrap(async (req, res) =>
+  ok(res, await auth.refresh((req.body || {}).refreshToken), 'Token diperbarui'));
+exports.logout = wrap(async (req, res) => {
+  await auth.logout((req.body || {}).refreshToken);
+  ok(res, null, 'Logout berhasil');
+});
+exports.me = wrap(async (req, res) => ok(res, await auth.me(req.user.id)));

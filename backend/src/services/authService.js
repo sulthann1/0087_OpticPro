@@ -3,6 +3,9 @@ const pool = require('../db/pool');
 const HttpError = require('../utils/httpError');
 const { validateRegister } = require('../validators/auth');
 const tokens = require('./tokenService');
+const jwt = require('jsonwebtoken');
+const env = require('../config/env');
+
 
 const publicUser = (u) => ({
   id: u.id,
@@ -41,4 +44,31 @@ async function login({ email, password }) {
   return { ...(await tokens.issueTokens(user)), user: publicUser(user) };
 }
 
-module.exports = { register,login };
+// Rotasi: token lama dicabut, pasangan token baru diterbitkan
+async function refresh(refreshToken) {
+  const fail = new HttpError(401, 'Sesi berakhir, silakan login kembali');
+  if (typeof refreshToken !== 'string') throw fail;
+  let payload;
+  try {
+    payload = jwt.verify(refreshToken, env.refreshSecret);
+  } catch {
+    throw fail;
+  }
+  const revoked = await tokens.revoke(refreshToken);
+  if (!revoked || revoked.user_id !== Number(payload.sub)) throw fail;
+  const r = await pool.query('SELECT * FROM users WHERE id = $1', [payload.sub]);
+  if (!r.rows[0]) throw fail;
+  return { ...(await tokens.issueTokens(r.rows[0])), user: publicUser(r.rows[0]) };
+}
+
+async function logout(refreshToken) {
+  if (typeof refreshToken === 'string') await tokens.revoke(refreshToken);
+}
+
+async function me(userId) {
+  const r = await pool.query('SELECT * FROM users WHERE id = $1', [userId]);
+  if (!r.rows[0]) throw new HttpError(401, 'Akun tidak ditemukan');
+  return publicUser(r.rows[0]);
+}
+
+module.exports = { register,login, refresh, logout, me };
