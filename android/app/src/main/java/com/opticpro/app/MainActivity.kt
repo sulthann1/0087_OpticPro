@@ -13,20 +13,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.opticpro.app.ui.theme.OpticProTheme
 import dagger.hilt.android.AndroidEntryPoint
+import com.opticpro.app.ui.theme.OpticProTheme
+import com.opticpro.app.ui.auth.LoginScreen
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            OpticProTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
-            }
+            OpticProTheme { LoginScreen(justRegistered = false, onRegisterClick = {}) }
+
         }
     }
 }
