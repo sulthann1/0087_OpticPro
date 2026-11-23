@@ -5,5 +5,6 @@ const ctl = require('../controllers/authController');
 
 router.get('/health', (_req, res) => ok(res, { status: 'ok' }, 'OpticPro API berjalan'));
 router.post('/auth/register', ctl.register);
+router.post('/auth/login', ctl.login);
 
 module.exports = router;

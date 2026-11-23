@@ -2,6 +2,7 @@ const bcrypt = require('bcryptjs');
 const pool = require('../db/pool');
 const HttpError = require('../utils/httpError');
 const { validateRegister } = require('../validators/auth');
+const tokens = require('./tokenService');
 
 const publicUser = (u) => ({
   id: u.id,
@@ -28,4 +29,16 @@ async function register(body) {
   return publicUser(r.rows[0]);
 }
 
-module.exports = { register };
+async function login({ email, password }) {
+  const fail = new HttpError(401, 'Email atau password salah'); // pesan sama untuk email/password salah
+  if (typeof email !== 'string' || typeof password !== 'string') throw fail;
+
+  const r = await pool.query('SELECT * FROM users WHERE lower(email) = $1', [email.trim().toLowerCase()]);
+  const user = r.rows[0];
+  const valid = user ? await bcrypt.compare(password, user.password_hash) : false;
+  if (!valid) throw fail;
+
+  return { ...(await tokens.issueTokens(user)), user: publicUser(user) };
+}
+
+module.exports = { register,login };

@@ -6,3 +6,5 @@ const wrap = (fn) => (req, res, next) => fn(req, res).catch(next);
 
 exports.register = wrap(async (req, res) =>
   ok(res, await auth.register(req.body || {}), 'Registrasi berhasil', 201));
+
+exports.login = wrap(async (req, res) => ok(res, await auth.login(req.body || {}), 'Login berhasil'));
