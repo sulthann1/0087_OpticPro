@@ -1,5 +1,5 @@
-require('dotenv').config();
+// src/server.js
+const env = require('./config/env');
 const app = require('./app');
 
-const port = Number(process.env.PORT) || 3000;
-app.listen(port, '0.0.0.0', () => console.log(`OpticPro API berjalan di http://localhost:${port}/api`));
+app.listen(env.port, '0.0.0.0', () => console.log(`OpticPro API berjalan di http://localhost:${env.port}/api`));

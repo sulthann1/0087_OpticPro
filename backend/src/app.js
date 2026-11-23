@@ -1,10 +1,15 @@
 const express = require('express');
+const cors = require('cors');
+const helmet = require('helmet');
+const routes = require('./routes');
+const { notFound, errorHandler } = require('./middleware/errorHandler');
 
 const app = express();
+app.use(helmet());
+app.use(cors());
 app.use(express.json({ limit: '100kb' }));
-
-app.get('/api/health', (req, res) => {
-  res.json({ success: true, message: 'OpticPro API berjalan', data: { status: 'ok' } });
-});
+app.use('/api', routes);
+app.use(notFound);
+app.use(errorHandler);
 
 module.exports = app;
