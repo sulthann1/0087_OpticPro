@@ -48,7 +48,7 @@ Status: ⬜ belum, 🟨 proses, ✅ selesai. Diperbarui tiap akhir minggu.
 
 | Minggu | Target | Status | Catatan / bukti |
 | --- | --- | --- | --- |
-| 1 (22-28 Nov) | Repo, skema database, backend auth, login/register Android, token terenkripsi, navigasi per peran | 🟨 | Backend: 18 uji smoke lulus. Android: perlu diuji di Android Studio |
+| 1 (22-28 Nov) | Repo, skema database, backend auth, login/register Android, token terenkripsi, navigasi per peran | ✅ | |
 | 2 (29 Nov-5 Des) | Katalog Frame (CRUDS + upload foto), Resep Lensa (CRUDS) | ⬜ | |
 | 3 (6-12 Des) | Pesanan (stok, alur status, pembayaran) | ⬜ | |
 | 4 (13-19 Des) | PDF Kartu Resep dan Nota, File Tersimpan, Jadwal Kunjungan | ⬜ | |

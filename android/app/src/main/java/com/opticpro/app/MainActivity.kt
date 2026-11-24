@@ -15,13 +15,15 @@ import com.opticpro.app.ui.theme.OpticProTheme
 import dagger.hilt.android.AndroidEntryPoint
 import com.opticpro.app.ui.theme.OpticProTheme
 import com.opticpro.app.ui.auth.LoginScreen
+import com.opticpro.app.ui.navigation.AppNavHost
+import com.opticpro.app.ui.theme.OpticProTheme
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            OpticProTheme { LoginScreen(justRegistered = false, onRegisterClick = {}) }
+            OpticProTheme { AppNavHost() }
 
         }
     }
